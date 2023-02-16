@@ -6,11 +6,11 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 08:42:00 by pfaria-d          #+#    #+#             */
-/*   Updated: 2022/11/25 00:46:33 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/02/15 12:10:03 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_substr2(const char *s, unsigned int start, int len, char *buff)
 {
@@ -33,7 +33,7 @@ char	*ft_substr2(const char *s, unsigned int start, int len, char *buff)
 	}
 	freee((char *)s);
 	s2[i] = 0;
-	if (ft_strlen(s2) == 0 && ft_strchr(buff, '\n') == 0)
+	if (ft_strchr(buff, '\n') == 0 || ft_strlen(s2) == 0)
 	{
 		freee(s2);
 		return (0);
@@ -88,7 +88,12 @@ char	*get_next_line(int fd)
 
 	i = 0;
 	if (BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0 || fd < 0)
+	{
+		if (line[fd])
+			freee(line[fd]);
+		line[fd] = NULL;
 		return (0);
+	}
 	line[fd] = line_reader(fd, line[fd]);
 	if (line[fd] == 0)
 		return (0);
